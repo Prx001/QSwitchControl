@@ -122,4 +122,3 @@ class SwitchControl(QCheckBox):
 		if self.auto != 0:
 			self.auto = 0
 			self.start_animation(not self.isChecked())
-# return super().mouseReleaseEvent(event)
