@@ -3,6 +3,10 @@ from PyQt5.QtWidgets import QWidget, QCheckBox
 from PyQt5.QtGui import QPainter, QColor
 
 
+def take_closest(num, collection):
+	return min(collection, key=lambda x: abs(x - num))
+
+
 class SwitchCircle(QWidget):
 	def __init__(self, parent, move_range: tuple, color, animation_curve, animation_duration):
 		super().__init__(parent=parent)
@@ -38,7 +42,6 @@ class SwitchCircle(QWidget):
 		return super().mouseMoveEvent(event)
 
 	def mouseReleaseEvent(self, event):
-		take_closest = lambda num, collection: min(collection, key=lambda x: abs(x - num))
 		try:
 			go_to = take_closest(self.new_x, self.move_range)
 			if go_to == self.move_range[0]:
