@@ -61,7 +61,8 @@ class SwitchCircle(QWidget):
 
 class SwitchControl(QCheckBox):
 	def __init__(self, parent=None, bg_color="#777777", circle_color="#DDD", active_color="#aa00ff",
-	             animation_curve=QEasingCurve.OutBounce, animation_duration=500, change_cursor=True):
+	             animation_curve=QEasingCurve.OutBounce, animation_duration=500, checked: bool = False,
+	             change_cursor=True):
 		if parent is None:
 			super().__init__()
 		else:
@@ -73,7 +74,12 @@ class SwitchControl(QCheckBox):
 		self.circle_color = circle_color
 		self.__circle = SwitchCircle(self, (3, self.width() - 26), self.circle_color, animation_curve,
 		                             animation_duration)
-		self.__circle.move(3, 3)
+		if checked:
+			self.__circle.move(self.width() - 26, 3)
+			self.setChecked(True)
+		elif not checked:
+			self.__circle.move(3, 3)
+			self.setChecked(False)
 		self.__circle_position = 3
 		self.active_color = active_color
 		self.auto = 0
