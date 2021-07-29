@@ -26,4 +26,5 @@ class Form(QWidget):
 
 app = QApplication(sys.argv)
 form = Form()
-sys.exit(app.exec_())
+if __name__ == '__main__':
+	sys.exit(app.exec_())
