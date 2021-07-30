@@ -15,7 +15,7 @@ setup(
 	author_email="munichbayern2005@gmail.com",
 	license="MIT",
 	classifiers=[
-		"License :: MIT License",
+		"License :: OSI Approved :: MIT License",
 		"Programming Language :: Python :: 3",
 		"Programming Language :: Python :: 3.9",
 		"Programming Language :: Python :: Implementation :: CPython"
