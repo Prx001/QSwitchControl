@@ -21,7 +21,7 @@ class SwitchControlPlugin(QPyDesignerCustomWidgetPlugin):
 		return SwitchControl(parent=parent)
 
 	def name(self):
-		return "Switch Control"
+		return "SwitchControl"
 
 	def group(self):
 		return "Buttons"
