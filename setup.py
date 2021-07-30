@@ -11,7 +11,7 @@ setup(
 	long_description=README,
 	long_description_content_type="text/markdown",
 	url="https://github.com/Prx001/QSwitchControl",
-	author="Prx001",
+	author="Parsa.py",
 	author_email="munichbayern2005@gmail.com",
 	license="MIT",
 	classifiers=[
