@@ -13,7 +13,7 @@ class Form(QWidget):
 
 	def initUI(self):
 		self.resize(400, 400)
-		self.setWindowTitle("Switch.Control test")
+		self.setWindowTitle("SwitchControl test")
 		self.setStyleSheet("""
 		background-color: #222222;
 		""")

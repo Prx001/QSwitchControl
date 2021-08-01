@@ -1,4 +1,4 @@
-from PyQt5.QtCore import Qt, QPoint, QPropertyAnimation, QEasingCurve
+from PyQt5.QtCore import Qt, QPoint, pyqtSlot, pyqtProperty, QPropertyAnimation, QEasingCurve
 from PyQt5.QtWidgets import QWidget, QCheckBox
 from PyQt5.QtGui import QPainter, QColor
 
@@ -24,6 +24,10 @@ class SwitchCircle(QWidget):
 		painter.setBrush(QColor(self.color))
 		painter.drawEllipse(0, 0, 22, 22)
 		painter.end()
+
+	def set_color(self, value):
+		self.color = value
+		self.update()
 
 	def mousePressEvent(self, event):
 		self.animation.stop()
@@ -72,21 +76,64 @@ class SwitchControl(QCheckBox):
 			self.setCursor(Qt.PointingHandCursor)
 		self.bg_color = bg_color
 		self.circle_color = circle_color
-		self.__circle = SwitchCircle(self, (3, self.width() - 26), self.circle_color, animation_curve,
-		                             animation_duration)
+		self.animation_curve = animation_curve
+		self.animation_duration = animation_duration
+		self.__circle = SwitchCircle(self, (3, self.width() - 26), self.circle_color, self.animation_curve,
+		                             self.animation_duration)
+		self.__circle_position = 3
+		self.active_color = active_color
+		self.auto = False
+		self.pos_on_press = None
 		if checked:
 			self.__circle.move(self.width() - 26, 3)
 			self.setChecked(True)
 		elif not checked:
 			self.__circle.move(3, 3)
 			self.setChecked(False)
-		self.__circle_position = 3
-		self.active_color = active_color
-		self.auto = 0
-		self.x_pos_on_press = None
 		self.animation = QPropertyAnimation(self.__circle, b"pos")
 		self.animation.setEasingCurve(animation_curve)
 		self.animation.setDuration(animation_duration)
+
+	def get_bg_color(self):
+		return self.bg_color
+
+	@pyqtSlot(str)
+	def set_bg_color(self, value):
+		self.bg_color = value
+		self.update()
+
+	backgroundColor = pyqtProperty(str, get_bg_color, set_bg_color)
+
+	def get_circle_color(self):
+		return self.circle_color
+
+	@pyqtSlot(str)
+	def set_circle_color(self, value):
+		self.circle_color = value
+		self.__circle.set_color(self.circle_color)
+		self.update()
+
+	circleBackgroundColor = pyqtProperty(str, get_circle_color, set_circle_color)
+
+	def get_animation_duration(self):
+		return self.animation_duration
+
+	@pyqtSlot(int)
+	def set_animation_duration(self, value):
+		self.animation_duration = value
+		self.animation.setDuration(value)
+
+	animationDuration = pyqtProperty(int, get_animation_duration, set_animation_duration)
+
+	def get_active_color(self):
+		return self.active_color
+
+	@pyqtSlot(str)
+	def set_active_color(self, value):
+		self.active_color = value
+		self.update()
+
+	activeColor = pyqtProperty(str, get_active_color, set_active_color)
 
 	def start_animation(self, checked):
 		self.animation.stop()
@@ -115,16 +162,16 @@ class SwitchControl(QCheckBox):
 		return self.contentsRect().contains(pos)
 
 	def mousePressEvent(self, event):
-		self.auto = 1
-		self.x_pos_on_press = event.x()
+		self.auto = True
+		self.pos_on_press = event.globalPos()
 		return super().mousePressEvent(event)
 
 	def mouseMoveEvent(self, event):
-		if event.x() != self.x_pos_on_press:
-			self.auto = 0
+		if event.globalPos() != self.pos_on_press:
+			self.auto = False
 		return super().mouseMoveEvent(event)
 
 	def mouseReleaseEvent(self, event):
-		if self.auto != 0:
-			self.auto = 0
+		if self.auto:
+			self.auto = False
 			self.start_animation(not self.isChecked())
