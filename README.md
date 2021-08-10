@@ -18,3 +18,5 @@ Import 'SwitchControl' class from the package:
 ```python
 from QSwitchControl import SwitchControl
 ```
+Now the class is ready to use!
+SwitchControl is an alternative widget for QCheckBox from Qt framework, same methods, same usage and that's how it works.
