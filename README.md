@@ -6,7 +6,6 @@ https://user-images.githubusercontent.com/67240789/128912103-b24d7321-a7d6-4b1b-
 
 
 
-
 ### An easy-to-use and modern toggle switch for Qt Python binding PyQt
 QSwitchControl is a custom toggle-switch widget inherited from 'QCheckBox' class, and acts as a checkbox alternative widget in your PyQt5 application.
 
