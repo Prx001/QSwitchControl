@@ -1,12 +1,12 @@
 import pathlib
 
-from setuptools import setup
+from setuptools import setup, find_packages
 
 HERE = pathlib.Path(__file__).parent
 README = (HERE / "README.md").read_text()
 setup(
 	name="QSwitchControl",
-	version="1.0.0",
+	version="1.0.1",
 	description="An easy-to-use and modern toggle switch for Qt Python binding PyQt",
 	long_description=README,
 	long_description_content_type="text/markdown",
@@ -20,6 +20,7 @@ setup(
 		"Programming Language :: Python :: 3.9",
 		"Programming Language :: Python :: Implementation :: CPython"
 	],
+	py_modules=["__init__", "__main__", "QSwitchControl", "QSwitchControlplugin"],
 	include_package_data=True,
 	install_requires=["PyQt5"]
 )
