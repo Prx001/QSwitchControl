@@ -1,9 +1,6 @@
 # QSwitchControl
 ## Custom toggle-switch widget implemented in PyQt5 for PyQt5 applications!
 
-
-https://user-images.githubusercontent.com/67240789/127646799-002f8587-409c-4415-aa09-3970c5309942.mp4
-
 https://user-images.githubusercontent.com/67240789/128910558-ad07e593-e4d9-4a29-8ba1-b5de7c66eb87.mp4
 
 
