@@ -65,4 +65,4 @@ You can define the values yourself. Bellow is an example:
 ```python
 switch_control = SwitchControl(bg_color="#777777", circle_color="#DDD", active_color="#aa00ff", animation_curve=QtCore.QEasingCurve.InOutCubic, animation_duration=300, checked=True, change_cursor=False)
 ```
-# Qt Designer
+# Qt Designer integration
