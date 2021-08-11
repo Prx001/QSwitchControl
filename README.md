@@ -12,7 +12,9 @@ QSwitchControl is a custom toggle-switch widget inherited from 'QCheckBox' class
 ## How to use?
 ### Installation
 The package is available on [PyPi](https://pypi.org) so as always use pip for installation:
-```pip install QSwitchControl```
+```
+pip install QSwitchControl
+```
 
 ### Usage in your Python application
 First of all, as expected, you need to import the package.
