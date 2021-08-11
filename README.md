@@ -23,7 +23,9 @@ from QSwitchControl import SwitchControl
 Now the class is ready to use!
 SwitchControl is an alternative widget for QCheckBox from Qt framework, same methods, same usage and that's how it works.
 There are things you can define for your SwitchControl, like the circle color, background color, active color, animation easing curve, animation duration and some other things, but you can use default values. The package contains a '__main__' script so you can test the widget easily:
-```python -m QSwitchControl```
+```
+python -m QSwitchControl
+```
 Bellow is the '__main__' script:
 ```python
 import sys
