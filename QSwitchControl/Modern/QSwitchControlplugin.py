@@ -21,6 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
+
 from PyQt5.QtDesigner import QPyDesignerCustomWidgetPlugin
 from PyQt5.QtGui import QIcon, QPixmap
 
@@ -44,7 +45,7 @@ class SwitchControlPlugin(QPyDesignerCustomWidgetPlugin):
 		return SwitchControl(parent=parent)
 
 	def name(self):
-		return "SwitchControl"
+		return "SwitchControlModern"
 
 	def group(self):
 		return "Buttons"
@@ -68,7 +69,7 @@ class SwitchControlPlugin(QPyDesignerCustomWidgetPlugin):
 		)
 
 	def includeFile(self):
-		return "QSwitchControl"
+		return "QSwitchControlModern"
 
 
 _logo_16x16_xpm = []

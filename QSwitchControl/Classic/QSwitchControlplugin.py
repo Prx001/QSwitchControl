@@ -22,38 +22,55 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import sys
+from PyQt5.QtDesigner import QPyDesignerCustomWidgetPlugin
+from PyQt5.QtGui import QIcon, QPixmap
 
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QApplication, QWidget, QHBoxLayout
-
-from Modern.QSwitchControl import SwitchControl as ModernSwitchControl
-from Classic.QSwitchControl import SwitchControl as ClassicSwitchControl
+from QSwitchControl import SwitchControl
 
 
-class Form(QWidget):
-	def __init__(self):
-		super().__init__()
-		self.init_ui()
+class SwitchControlPlugin(QPyDesignerCustomWidgetPlugin):
+	def __init__(self, parent=None):
+		super(SwitchControlPlugin, self).__init__(parent)
+		self.initialized = False
 
-	def init_ui(self):
-		self.resize(400, 400)
-		self.setWindowTitle("SwitchControl test")
-		self.setStyleSheet("""
-		background-color: #222222;
-		""")
-		classic_switch_control = ClassicSwitchControl()
-		classic_switch_control.setToolTip("SwitchControl with Classic style")
-		modern_switch_control = ModernSwitchControl()
-		modern_switch_control.setToolTip("SwitchControl with Modern style")
-		h_box = QHBoxLayout()
-		h_box.addWidget(classic_switch_control, Qt.AlignCenter, Qt.AlignCenter)
-		h_box.addWidget(modern_switch_control, Qt.AlignCenter, Qt.AlignCenter)
-		self.setLayout(h_box)
-		self.show()
+	def initialize(self, core):
+		if self.initialized:
+			return
+		self.initialized = True
+
+	def isInitialized(self):
+		return self.initialized
+
+	def createWidget(self, parent):
+		return SwitchControl(parent=parent)
+
+	def name(self):
+		return "SwitchControl"
+
+	def group(self):
+		return "Buttons"
+
+	def icon(self):
+		return QIcon(_logo_pixmap)
+
+	def toolTip(self):
+		return "A customized and modern toggle-switch"
+
+	def whatsThis(self):
+		return ""
+
+	def isContainer(self):
+		return False
+
+	def domXml(self):
+		return (
+			'<widget class="SwitchControl" name=\"switchControl\">\n'
+			"</widget>\n"
+		)
+
+	def includeFile(self):
+		return "QSwitchControl"
 
 
-app = QApplication(sys.argv)
-form = Form()
-if __name__ == '__main__':
-	sys.exit(app.exec_())
+_logo_16x16_xpm = []
+_logo_pixmap = QPixmap(_logo_16x16_xpm)
