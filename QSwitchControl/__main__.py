@@ -32,18 +32,18 @@ from QSwitchControl import SwitchControl
 class Form(QWidget):
 	def __init__(self):
 		super().__init__()
-		self.initUI()
+		self.init_ui()
 
-	def initUI(self):
+	def init_ui(self):
 		self.resize(400, 400)
 		self.setWindowTitle("SwitchControl test")
 		self.setStyleSheet("""
 		background-color: #222222;
 		""")
 		switch_control = SwitchControl()
-		hbox = QHBoxLayout()
-		hbox.addWidget(switch_control, Qt.AlignCenter, Qt.AlignCenter)
-		self.setLayout(hbox)
+		h_box = QHBoxLayout()
+		h_box.addWidget(switch_control, Qt.AlignCenter, Qt.AlignCenter)
+		self.setLayout(h_box)
 		self.show()
 
 
