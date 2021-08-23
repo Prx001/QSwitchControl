@@ -96,24 +96,25 @@ class SwitchControl(QCheckBox):
 		else:
 			super().__init__(parent=parent)
 		self.setFixedSize(60, 28)
+		if checked:
+			self.setChecked(True)
 		if change_cursor:
 			self.setCursor(Qt.PointingHandCursor)
 		self.bg_color = bg_color
 		self.circle_color = circle_color
+		self.active_color = active_color
 		self.animation_curve = animation_curve
 		self.animation_duration = animation_duration
-		self.__circle = SwitchCircle(self, (3, self.width() - 26), self.circle_color, self.animation_curve,
+		self.__min_x = 3
+		self.__max_x = self.width() - 26
+		self.__circle = SwitchCircle(self, (self.__min_x, self.__max_x), self.circle_color, self.animation_curve,
 		                             self.animation_duration)
-		self.__circle_position = 3
-		self.active_color = active_color
+		if not self.isChecked():
+			self.__circle.move(self.__min_x, self.__min_x)
+		elif self.isChecked():
+			self.__circle.move(self.__max_x, self.__min_x)
 		self.auto = False
 		self.pos_on_press = None
-		if checked:
-			self.__circle.move(self.width() - 26, 3)
-			self.setChecked(True)
-		elif not checked:
-			self.__circle.move(3, 3)
-			self.setChecked(False)
 		self.animation = QPropertyAnimation(self.__circle, b"pos")
 		self.animation.setEasingCurve(animation_curve)
 		self.animation.setDuration(animation_duration)
@@ -163,10 +164,10 @@ class SwitchControl(QCheckBox):
 		self.animation.stop()
 		self.animation.setStartValue(self.__circle.pos())
 		if checked:
-			self.animation.setEndValue(QPoint(self.width() - 26, self.__circle.y()))
+			self.animation.setEndValue(QPoint(self.__max_x, self.__circle.y()))
 			self.setChecked(True)
 		if not checked:
-			self.animation.setEndValue(QPoint(3, self.__circle.y()))
+			self.animation.setEndValue(QPoint(self.__min_x, self.__circle.y()))
 			self.setChecked(False)
 		self.animation.start()
 

@@ -77,7 +77,8 @@ class Form(QWidget, Ui_Form):
 		self.show()
 
 	def open_color_dialog(self, target: tuple):
-		color = QColorDialog.getColor(parent=self.container_widget, title="Choose color", options=QColorDialog.ShowAlphaChannel)
+		color = QColorDialog.getColor(parent=self.container_widget, title="Choose color",
+		                              options=QColorDialog.ShowAlphaChannel)
 		if color.isValid():
 			if target[0] == "Classic":
 				if target[1] == "circle":

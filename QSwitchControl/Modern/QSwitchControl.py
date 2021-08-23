@@ -25,6 +25,7 @@ SOFTWARE.
 from PyQt5.QtCore import Qt, QPoint, pyqtSlot, pyqtProperty, QPropertyAnimation, QEasingCurve
 from PyQt5.QtWidgets import QWidget, QCheckBox
 from PyQt5.QtGui import QPainter, QColor
+from PyQt5.QtTest import QTest
 
 
 def take_closest(num, collection):
@@ -32,55 +33,63 @@ def take_closest(num, collection):
 
 
 class SwitchCircle(QWidget):
-	def __init__(self, parent, move_range: list, color, animation_curve, animation_duration):
+	def __init__(self, parent, move_range: list, color, animation_curve, animation_duration, circle_animation_duration):
 		super().__init__(parent=parent)
 		self.color = color
 		self.move_range = move_range
-		self.grow = False
+		self.size = 18
+		self.circle_anim_duration = circle_animation_duration
 		self.animation = QPropertyAnimation(self, b"pos")
 		self.animation.setEasingCurve(animation_curve)
 		self.animation.setDuration(animation_duration)
+		self.circle_animation = QPropertyAnimation(self, b"circle_size")
+		self.circle_animation.setDuration(self.circle_anim_duration)
+
+	@pyqtProperty(float)
+	def circle_size(self):
+		return self.size
+
+	@circle_size.setter
+	def circle_size(self, value):
+		self.size = value
+		self.update()
 
 	def paintEvent(self, event):
-		if not self.grow:
-			painter = QPainter()
-			painter.begin(self)
-			painter.setRenderHint(QPainter.HighQualityAntialiasing)
-			painter.setPen(Qt.NoPen)
-			painter.setBrush(QColor(self.color))
-			painter.drawEllipse(0, 0, 18, 18)
-			painter.end()
-		elif self.grow:
-			painter = QPainter()
-			painter.begin(self)
-			painter.setRenderHint(QPainter.HighQualityAntialiasing)
-			painter.setPen(Qt.NoPen)
-			painter.setBrush(QColor(self.color))
-			painter.drawEllipse(0, 0, 22, 22)
-			painter.end()
+		painter = QPainter()
+		painter.begin(self)
+		painter.setRenderHint(QPainter.HighQualityAntialiasing)
+		painter.setPen(Qt.NoPen)
+		painter.setBrush(QColor(self.color))
+		painter.drawEllipse(0, 0, self.size, self.size)
+		painter.end()
 
 	def set_color(self, value):
 		self.color = value
 		self.update()
 
 	def grow_on_press(self):
-		self.grow = True
 		self.move_range[0] = 3
 		self.move_range[1] = self.parent().width() - 26
+		self.circle_animation.setStartValue(self.size)
+		self.circle_animation.setEndValue(22)
+		self.circle_animation.start()
+		QTest.qWait(self.circle_anim_duration)
 		self.parent().update_circle_position(reset_x=True)
-		self.repaint()
 
 	def shrink_on_release(self, reset_x: bool):
-		self.grow = False
 		self.move_range[0] = 5
 		self.move_range[1] = self.parent().width() - 23
+		self.circle_animation.setStartValue(self.size)
+		self.circle_animation.setEndValue(18)
+		self.circle_animation.start()
+		QTest.qWait(self.circle_anim_duration)
 		self.parent().update_circle_position(reset_x)
-		self.repaint()
 
 	def mousePressEvent(self, event):
 		self.animation.stop()
 		self.grow_on_press()
 		self.oldX = event.globalX()
+		print(self.size)
 		return super().mousePressEvent(event)
 
 	def mouseMoveEvent(self, event):
@@ -116,6 +125,7 @@ class SwitchCircle(QWidget):
 				elif self.new_x == self.move_range[1]:
 					self.parent().setChecked(True)
 				self.shrink_on_release(reset_x=True)
+			print(self.size)
 		except AttributeError:
 			pass
 		return super().mouseReleaseEvent(event)
@@ -123,8 +133,9 @@ class SwitchCircle(QWidget):
 
 class SwitchControl(QCheckBox):
 	def __init__(self, parent=None, bg_color="#777777", circle_color="#DDD", active_color="#aa00ff",
-	             animation_curve=QEasingCurve.OutBounce, animation_duration=500, checked: bool = False,
-	             change_cursor=True):
+				 animation_curve=QEasingCurve.OutBounce, animation_duration=500, circle_animation_duration=50,
+				 checked: bool = False,
+				 change_cursor=True):
 		if parent is None:
 			super().__init__()
 		else:
@@ -142,7 +153,7 @@ class SwitchControl(QCheckBox):
 		self.__min_x = 5
 		self.__max_x = self.width() - 23
 		self.__circle = SwitchCircle(self, [self.__min_x, self.__max_x], self.circle_color,
-		                             self.animation_curve, self.animation_duration)
+									 self.animation_curve, self.animation_duration, circle_animation_duration)
 		if not self.isChecked():
 			self.__circle.move(self.__min_x, self.__min_x)
 		elif self.isChecked():
