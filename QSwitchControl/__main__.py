@@ -25,7 +25,7 @@ SOFTWARE.
 import sys
 
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QApplication, QWidget, QHBoxLayout
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout
 
 from Modern.QSwitchControl import SwitchControl as ModernSwitchControl
 from Classic.QSwitchControl import SwitchControl as ClassicSwitchControl
@@ -46,10 +46,10 @@ class Form(QWidget):
 		classic_switch_control.setToolTip("SwitchControl with Classic style")
 		modern_switch_control = ModernSwitchControl()
 		modern_switch_control.setToolTip("SwitchControl with Modern style")
-		h_box = QHBoxLayout()
-		h_box.addWidget(classic_switch_control, Qt.AlignCenter, Qt.AlignCenter)
-		h_box.addWidget(modern_switch_control, Qt.AlignCenter, Qt.AlignCenter)
-		self.setLayout(h_box)
+		v_box = QVBoxLayout()
+		v_box.addWidget(classic_switch_control, Qt.AlignCenter, Qt.AlignCenter)
+		v_box.addWidget(modern_switch_control, Qt.AlignCenter, Qt.AlignCenter)
+		self.setLayout(v_box)
 		self.show()
 
 
