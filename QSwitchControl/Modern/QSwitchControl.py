@@ -89,7 +89,6 @@ class SwitchCircle(QWidget):
 		self.animation.stop()
 		self.grow_on_press()
 		self.oldX = event.globalX()
-		print(self.size)
 		return super().mousePressEvent(event)
 
 	def mouseMoveEvent(self, event):
@@ -125,7 +124,6 @@ class SwitchCircle(QWidget):
 				elif self.new_x == self.move_range[1]:
 					self.parent().setChecked(True)
 				self.shrink_on_release(reset_x=True)
-			print(self.size)
 		except AttributeError:
 			pass
 		return super().mouseReleaseEvent(event)
