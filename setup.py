@@ -20,8 +20,7 @@ setup(
 		"Programming Language :: Python :: 3.9",
 		"Programming Language :: Python :: Implementation :: CPython"
 	],
-	# py_modules=["__init__", "__main__", "QSwitchControl", "QSwitchControlplugin"],
-	packages=["QSwitchControl"],
+	packages=["QSwitchControl", "QSwitchControl/Classic", "QSwitchControl/Modern"],
 	include_package_data=True,
 	install_requires=["PyQt5"]
 )
