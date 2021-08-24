@@ -6,7 +6,7 @@ HERE = pathlib.Path(__file__).parent
 README = (HERE / "QSwitchControl\\README.md").read_text()
 setup(
 	name="QSwitchControl",
-	version="2.0.2 Beta",
+	version="2.0.3 Beta",
 	description="An easy-to-use and modern toggle switch for Qt Python binding PyQt",
 	long_description=README,
 	long_description_content_type="text/markdown",

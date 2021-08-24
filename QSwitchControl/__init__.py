@@ -22,4 +22,4 @@ SOFTWARE."""
 
 from Classic import QSwitchControl
 
-__version__ = "2.0.2 Beta"
+__version__ = "2.0.3 Beta"
