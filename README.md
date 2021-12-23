@@ -1,5 +1,6 @@
 # QSwitchControl
 ## Custom toggle-switch widget implemented in PyQt5 for PyQt5 applications!
+[![CodeFactor](https://www.codefactor.io/repository/github/prx001/qswitchcontrol/badge)](https://www.codefactor.io/repository/github/prx001/qswitchcontrol)
 
 
 https://user-images.githubusercontent.com/67240789/128912103-b24d7321-a7d6-4b1b-bbdc-562dbd20b358.mp4
