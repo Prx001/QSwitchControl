@@ -2,6 +2,7 @@
 MIT License
 
 Copyright (c) 2021 Parsa.py
+Modified work Copyright (c) 2024 github/M1GW
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -21,55 +22,35 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
-from PyQt5.QtDesigner import QPyDesignerCustomWidgetPlugin
-from PyQt5.QtGui import QIcon, QPixmap
+import sys
 
-from QSwitchControl import SwitchControl
+from PyQt6.QtCore import Qt
+from PyQt6.QtWidgets import QApplication, QWidget, QHBoxLayout
 
-
-class SwitchControlPlugin(QPyDesignerCustomWidgetPlugin):
-	def __init__(self, parent=None):
-		super(SwitchControlPlugin, self).__init__(parent)
-		self.initialized = False
-
-	def initialize(self, core):
-		if self.initialized:
-			return
-		self.initialized = True
-
-	def isInitialized(self):
-		return self.initialized
-
-	def createWidget(self, parent):
-		return SwitchControl(parent=parent)
-
-	def name(self):
-		return "SwitchControl"
-
-	def group(self):
-		return "Buttons"
-
-	def icon(self):
-		return QIcon(_logo_pixmap)
-
-	def toolTip(self):
-		return "A customized and modern toggle-switch"
-
-	def whatsThis(self):
-		return ""
-
-	def isContainer(self):
-		return False
-
-	def domXml(self):
-		return (
-			'<widget class="SwitchControl" name=\"switchControl\">\n'
-			"</widget>\n"
-		)
-
-	def includeFile(self):
-		return "QSwitchControl"
+from PyQt6_SwitchControl import SwitchControl
 
 
-_logo_16x16_xpm = []
-_logo_pixmap = QPixmap(_logo_16x16_xpm)
+class Form(QWidget):
+	def __init__(self):
+		super().__init__()
+		self.init_ui()
+
+	def init_ui(self):
+		self.resize(400, 400)
+		self.setWindowTitle("SwitchControl test")
+		self.setStyleSheet("""
+		background-color: #222222;
+		""")
+		switch_control = SwitchControl()
+		h_box = QHBoxLayout()
+		h_box.addWidget(switch_control, Qt.AlignmentFlag.AlignCenter, Qt.AlignmentFlag.AlignCenter)
+		self.setLayout(h_box)
+		self.show()
+
+
+if __name__ == '__main__':
+	app = QApplication(sys.argv)
+	form = Form()
+	form.show()
+	app.exec()
+

@@ -2,6 +2,7 @@
 MIT License
 
 Copyright (c) 2021 Parsa.py
+Modified work Copyright (c) 2024 github/M1GW
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -21,9 +22,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
-from PyQt5.QtCore import Qt, QPoint, pyqtSlot, pyqtProperty, QPropertyAnimation, QEasingCurve
-from PyQt5.QtWidgets import QWidget, QCheckBox
-from PyQt5.QtGui import QPainter, QColor
+from PyQt6.QtCore import Qt, QPoint, pyqtSlot, pyqtProperty, QPropertyAnimation, QEasingCurve
+from PyQt6.QtWidgets import QWidget, QCheckBox
+from PyQt6.QtGui import QPainter, QColor
 
 
 def take_closest(num, collection):
@@ -42,8 +43,8 @@ class SwitchCircle(QWidget):
 	def paintEvent(self, event):
 		painter = QPainter()
 		painter.begin(self)
-		painter.setRenderHint(QPainter.HighQualityAntialiasing)
-		painter.setPen(Qt.NoPen)
+		painter.setRenderHint(QPainter.RenderHint.Antialiasing)
+		painter.setPen(Qt.PenStyle.NoPen)
 		painter.setBrush(QColor(self.color))
 		painter.drawEllipse(0, 0, 22, 22)
 		painter.end()
@@ -54,18 +55,18 @@ class SwitchCircle(QWidget):
 
 	def mousePressEvent(self, event):
 		self.animation.stop()
-		self.oldX = event.globalX()
+		self.oldX = event.globalPosition().x()
 		return super().mousePressEvent(event)
 
 	def mouseMoveEvent(self, event):
-		delta = event.globalX() - self.oldX
+		delta = event.globalPosition().x() - self.oldX
 		self.new_x = delta + self.x()
 		if self.new_x < self.move_range[0]:
 			self.new_x += (self.move_range[0] - self.new_x)
 		if self.new_x > self.move_range[1]:
 			self.new_x -= (self.new_x - self.move_range[1])
-		self.move(self.new_x, self.y())
-		self.oldX = event.globalX()
+		self.move(int(self.new_x), self.y())
+		self.oldX = event.globalPosition().x()
 		return super().mouseMoveEvent(event)
 
 	def mouseReleaseEvent(self, event):
@@ -88,7 +89,7 @@ class SwitchCircle(QWidget):
 
 class SwitchControl(QCheckBox):
 	def __init__(self, parent=None, bg_color="#777777", circle_color="#DDD", active_color="#aa00ff",
-	             animation_curve=QEasingCurve.OutBounce, animation_duration=500, checked: bool = False,
+	             animation_curve=QEasingCurve.Type.OutBounce, animation_duration=500, checked: bool = False,
 	             change_cursor=True):
 		if parent is None:
 			super().__init__()
@@ -96,7 +97,7 @@ class SwitchControl(QCheckBox):
 			super().__init__(parent=parent)
 		self.setFixedSize(60, 28)
 		if change_cursor:
-			self.setCursor(Qt.PointingHandCursor)
+			self.setCursor(Qt.CursorShape.PointingHandCursor)
 		self.bg_color = bg_color
 		self.circle_color = circle_color
 		self.animation_curve = animation_curve
@@ -172,8 +173,8 @@ class SwitchControl(QCheckBox):
 	def paintEvent(self, event):
 		painter = QPainter()
 		painter.begin(self)
-		painter.setRenderHint(QPainter.HighQualityAntialiasing)
-		painter.setPen(Qt.NoPen)
+		painter.setRenderHint(QPainter.RenderHint.Antialiasing)
+		painter.setPen(Qt.PenStyle.NoPen)
 		if not self.isChecked():
 			painter.setBrush(QColor(self.bg_color))
 			painter.drawRoundedRect(0, 0, self.width(), self.height(), self.height() / 2, self.height() / 2)
@@ -186,11 +187,11 @@ class SwitchControl(QCheckBox):
 
 	def mousePressEvent(self, event):
 		self.auto = True
-		self.pos_on_press = event.globalPos()
+		self.pos_on_press = event.globalPosition()
 		return super().mousePressEvent(event)
 
 	def mouseMoveEvent(self, event):
-		if event.globalPos() != self.pos_on_press:
+		if event.globalPosition() != self.pos_on_press:
 			self.auto = False
 		return super().mouseMoveEvent(event)
 
